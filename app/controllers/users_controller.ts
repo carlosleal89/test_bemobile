@@ -1,7 +1,6 @@
-import type { HttpContext } from '@adonisjs/core/http'
-
+import type { HttpContext } from '@adonisjs/core/http';
 import User from '../models/user.js';
-import hash from '@adonisjs/core/services/hash'
+import hash from '@adonisjs/core/services/hash';
 
 
 export default class UsersController {
@@ -9,14 +8,13 @@ export default class UsersController {
     try {
       const body = request.body();
       const newUser = await User.create(body);
-      response.status(201)
-      return {
+      return response.status(201).send({
         message: 'Usuário criado',
         data: {
           nome: newUser.fullName,
           email: newUser.email,
         },
-      };    
+      });   
     } catch (error: any) {
       console.error(error.code)
       const errorMessage = error.code === 'ER_DUP_ENTRY' ?
