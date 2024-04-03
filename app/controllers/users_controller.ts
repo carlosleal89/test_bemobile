@@ -16,13 +16,13 @@ export default class UsersController {
         },
       });   
     } catch (error: any) {
-      console.error(error.code)
+      console.error(error.message)
       const errorMessage = error.code === 'ER_DUP_ENTRY' ?
         'Usuário já existente'
         : error.message;
-      return {
+      return response.status(409).send({
         message: errorMessage,
-      };   
+      });  
     }
   }
 
@@ -42,9 +42,9 @@ export default class UsersController {
       const errorMessage = error.code === 'E_ROW_NOT_FOUND' ?
         'Usuário não encontrado'
         : error.message;
-      return {
+      return response.status(200).send({
         message: errorMessage,
-      };   
+      });  
     }
   }
 }
