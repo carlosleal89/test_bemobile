@@ -5,21 +5,22 @@ import Address from '../models/address.js';
 export default class AddressesController {
   async insertAddress(clientId: number, addressData: Array<IAddressData>) {
     try {
-      // const address = await Address.create(addressData);
-      const address = addressData
-        .map(async (addressEl:IAddressData) => await Address.create({ clientId, ...addressEl }));
-      return address;
+      const addresses = await Promise.all(addressData.map(async (addressEl: IAddressData) => {
+        return await Address.create({ clientId, ...addressEl });
+      }));      
+      return addresses;
     } catch(error: any) {
       console.error(error.message);
       throw new Error(error.message);
     }
   }
 
-  async store({ request, response }: HttpContext) {
+  async insertAddressByClientId({ request, response }: HttpContext) {
     try {
       // verificar se o id do cliente existe
-      const body = request.body();
-      const newAddress = await Address.create(body);
+      const { clientId } = request.params();
+      const { addresses } = request.body();
+      const newAddress = await this.insertAddress(clientId, addresses);
       return response.status(201).send({
         data: newAddress,
       });

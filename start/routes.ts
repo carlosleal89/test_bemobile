@@ -14,6 +14,7 @@ router.group(() => {
   router
     .resource('/address', AddressesController)
     .apiOnly();
+  router.post('/address/:clientId', [AddressesController, 'insertAddressByClientId']);
   })
   .use([
     middleware.auth()
