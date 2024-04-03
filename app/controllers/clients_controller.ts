@@ -13,7 +13,7 @@ export default class ClientsController {
       
       return response.status(200).send({
         data: clientsWithoutTimestamps,
-      }); 
+      });
 
     } catch(error: any) {
       console.error(error.message);
@@ -27,10 +27,8 @@ export default class ClientsController {
     try {
       const { name, cpf, addresses } = request.body();
       const newClient = await Client.create({name, cpf});
-      const newAddress = await this.addressesController.inserAddress({
-        clientId: newClient.id,
-        ...addresses
-      });
+      const newAddress = await this.addressesController
+        .insertAddress( newClient.id, addresses );
       return response.status(201).send({
         message: 'Cliente inserido na base de dados.',
         data: {
