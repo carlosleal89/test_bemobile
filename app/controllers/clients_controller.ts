@@ -55,9 +55,29 @@ export default class ClientsController {
     } catch(error: any) {
       console.error(error.message);
       if (error.message === 'Row not found') {
-        return response.status(200).send({ message: 'Cliente não encontrado' })
+        return response.status(200).send({ message: 'Cliente não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' })
+      return response.status(500).send({ message: 'Erro interno do servidor' });
+    }
+  }
+
+  async update({params, request, response}: HttpContext) {
+    try {
+      const body = request.body();
+      const client = await Client.findOrFail(params.id);
+
+      client.name = body.name;
+      client.cpf = body.cpf;
+
+      await client.save();
+      
+      return response.status(200).send({ data: client });
+    } catch(error: any) {
+      console.error(error.message);
+      if (error.message === 'Row not found') {
+        return response.status(200).send({ message: 'Cliente não encontrado' });
+      }
+      return response.status(500).send({ message: 'Erro interno do servidor' });
     }
   }
 }
