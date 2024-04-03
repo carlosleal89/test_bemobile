@@ -1,17 +1,18 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import Client from '../models/client.js';
 import AddressesController from './addresses_controller.js';
+import formatData from '../../utils/format_data.js';
 
 export default class ClientsController {
   private addressesController = new AddressesController();
 
-  async index({request, response}: HttpContext) {
+  async index({response}: HttpContext) {
     try {
       const allClients = await Client.query().preload('addresses');
+      const clientsWithoutTimestamps = formatData(allClients);
+      
       return response.status(200).send({
-        data: {
-          allClients
-        },
+        data: clientsWithoutTimestamps,
       }); 
 
     } catch(error: any) {
@@ -26,10 +27,10 @@ export default class ClientsController {
     try {
       const { name, cpf, addresses } = request.body();
       const newClient = await Client.create({name, cpf});
-      const newAddress = await this.addressesController.store({
+      const newAddress = await this.addressesController.inserAddress({
         clientId: newClient.id,
         ...addresses
-      })
+      });
       return response.status(201).send({
         message: 'Cliente inserido na base de dados.',
         data: {
