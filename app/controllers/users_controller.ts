@@ -16,32 +16,31 @@ export default class UsersController {
       };    
     } catch (error: any) {
       console.error(error.code)
-      const errorMessage = error.code === 'ER_DUP_ENTRY' ? 'Usuário já existente' : error.message;
+      const errorMessage = error.code === 'ER_DUP_ENTRY' ?
+        'Usuário já existente'
+        : error.message;
       return {
         message: errorMessage,
       };   
     }
   }
 
-  async login({request, response}: HttpContext) {
+  async login({request, response, auth}: HttpContext) {
     try {
       const { email, password } = request.all();
-      const user = await User.findByOrFail('email', email);
+      const user = await User.verifyCredentials(email, password);
 
       const passwordVerified = await hash.verify(user.password, password);
 
       if (!passwordVerified) {        
         return response.status(401).send({ error: 'Senha inválida' });
       }
-      const token = await User.accessTokens.create(user);
-
-      return {
-        type: 'bearer',
-        value: token.value!.release(),
-      };
+      return await auth.use('jwt').generate(user);
     } catch (error: any) {
       console.error(error.code)
-      const errorMessage = error.code === 'E_ROW_NOT_FOUND' ? 'Usuário não encontrado' : error.message;
+      const errorMessage = error.code === 'E_ROW_NOT_FOUND' ?
+        'Usuário não encontrado'
+        : error.message;
       return {
         message: errorMessage,
       };   
