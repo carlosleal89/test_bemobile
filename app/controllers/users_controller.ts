@@ -11,8 +11,11 @@ export default class UsersController {
       const newUser = await User.create(body);
       response.status(201)
       return {
-        message: 'User created',
-        data: newUser,
+        message: 'Usuário criado',
+        data: {
+          nome: newUser.fullName,
+          email: newUser.email,
+        },
       };    
     } catch (error: any) {
       console.error(error.code)

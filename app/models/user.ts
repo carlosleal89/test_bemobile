@@ -1,4 +1,3 @@
-import { DateTime } from 'luxon';
 import hash from '@adonisjs/core/services/hash';
 import { compose } from '@adonisjs/core/helpers';
 import { BaseModel, column } from '@adonisjs/lucid/orm';
@@ -23,17 +22,11 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @column()
   declare password: string
 
-  @column.dateTime({ autoCreate: true })
-  declare createdAt: DateTime
-
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
-  declare updatedAt: DateTime | null
-
   static accessTokens = DbAccessTokensProvider.forModel(User, {
     expiresIn: '30 days',
     prefix: 'oat_',
     table: 'auth_access_tokens',
     type: 'auth_token',
     tokenSecretLength: 40,
-  });
+  });  
 }
