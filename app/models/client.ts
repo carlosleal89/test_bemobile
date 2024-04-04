@@ -3,6 +3,7 @@ import { BaseModel, beforeSave, column, hasMany } from '@adonisjs/lucid/orm';
 import Address from './address.js';
 import * as relations from '@adonisjs/lucid/types/relations';
 import Phone from './phone.js';
+import Sale from './sale.js';
 
 export default class Client extends BaseModel {
   @hasMany(() => Address)
@@ -10,6 +11,9 @@ export default class Client extends BaseModel {
 
   @hasMany(() => Phone)
   declare phones: relations.HasMany<typeof Phone>
+
+  @hasMany(() => Sale)
+  declare sales: relations.HasMany<typeof Sale>
 
   @column({ isPrimary: true })
   declare id: number
