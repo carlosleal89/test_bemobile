@@ -1,21 +1,28 @@
 import type { HttpContext } from '@adonisjs/core/http';
-import ISales from '../../interfaces/i_sales.js';
 import Client from '../models/client.js';
 import Sale from '../models/sale.js';
+import Product from '../models/product.js';
 
 export default class SalesController {
   async store({ request, response }: HttpContext) {
     try {
-      const { sales } = request.body();
-      const clientId = sales[0].clientId;
+      const { clientId, productId, quantity, unitPrice, totalPrice } = request.body();
 
       await Client.findOrFail(clientId);
+      const isProduct = await Product.find(productId);
+      if (!isProduct) {
+        return response.status(200).send({ message: 'Produto não encontrado' });
+      }
 
-      const newSales = await Promise.all(sales.map(async (saleEl: ISales) => {
-        return await Sale.create(saleEl);
-      }));
+      const newSale = await Sale.create({
+        clientId,
+        productId,
+        quantity,
+        unitPrice,
+        totalPrice,
+      });
 
-      return response.status(201).send(newSales);
+      return response.status(201).send(newSale);
     } catch(error: any) {
       console.error(error.message);
       if (error.message === 'Row not found') {

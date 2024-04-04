@@ -27,7 +27,7 @@ export default class ProductsController {
       }));
 
       return response.status(201).send({
-        message: 'Produtos inserido na base de dados',
+        message: 'Produtos inseridos na base de dados',
         data: newProducts,
       })
     } catch(error: any) {
