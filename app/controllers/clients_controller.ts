@@ -40,8 +40,22 @@ export default class ClientsController {
     }
   }
 
-  async show({params, response}: HttpContext) {
+  async show({request, params, response}: HttpContext) {
     try {
+      const { month, year } = request.qs();
+
+      if (month && year) {
+        const client = await Client
+          .query()
+          .whereRaw(`YEAR(created_at) = ? AND MONTH(created_at) = ?`, [year, month])
+          .where('id', params.id)
+          .preload('sales', (query) => {
+            query.orderBy('created_at', 'desc')
+          })
+          .firstOrFail();
+          return response.status(200).send({ data: client });
+      }
+      
       const client = await Client
         .query()
         .where('id', params.id)
@@ -51,7 +65,7 @@ export default class ClientsController {
         .firstOrFail();
       return response.status(200).send({ data: client });
     } catch(error: any) {
-      console.error(error.message);
+      console.error(error);
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
