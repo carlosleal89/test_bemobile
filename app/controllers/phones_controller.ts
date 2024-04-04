@@ -44,4 +44,20 @@ export default class PhonesController {
       return response.status(500).send({ message: 'Erro interno do servidor' });
     }
   }
+
+  async destroy({params, response}: HttpContext) {
+    try {
+      const phone = await Phone.findOrFail(params.id);
+
+      await phone.delete();
+      
+      return response.status(204);
+    } catch(error: any) {
+      console.error(error.message);
+      if (error.message === 'Row not found') {
+        return response.status(200).send({ message: 'Telefone não encontrado' });
+      }
+      return response.status(500).send({ message: 'Erro interno do servidor' });
+    }
+  }
 }
