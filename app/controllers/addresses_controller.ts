@@ -3,25 +3,14 @@ import IAddressData from '../../interfaces/i_address.js';
 import Address from '../models/address.js';
 import Client from '../models/client.js';
 
-export default class AddressesController {
-  async insertAddress(clientId: number, addressData: Array<IAddressData>) {
-    try {
-      const addresses = await Promise.all(addressData.map(async (addressEl: IAddressData) => {
-        return await Address.create({ clientId, ...addressEl });
-      }));      
-      return addresses;
-    } catch(error: any) {
-      console.error(error.message);
-      throw new Error(error.message);
-    }
-  }
-
-  async insertAddressByClientId({ request, response }: HttpContext) {
+export default class AddressesController {async insertAddressByClientId({ request, response }: HttpContext) {
     try {
       const { clientId } = request.params();
       const { addresses } = request.body();
       await Client.findOrFail(clientId);      
-      const newAddress = await this.insertAddress(clientId, addresses);
+      const newAddress = await Promise.all(addresses.map(async (addressEl: IAddressData) => {
+        return await Address.create({ clientId, ...addressEl });
+      }));
       return response.status(201).send({
         data: newAddress,
       });
