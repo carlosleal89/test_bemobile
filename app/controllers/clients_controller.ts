@@ -44,25 +44,19 @@ export default class ClientsController {
     try {
       const { month, year } = request.qs();
 
+      let clientQuery = Client.query().where('id', params.id);
+
       if (month && year) {
-        const client = await Client
-          .query()
-          .whereRaw(`YEAR(created_at) = ? AND MONTH(created_at) = ?`, [year, month])
-          .where('id', params.id)
-          .preload('sales', (query) => {
-            query.orderBy('created_at', 'desc')
-          })
-          .firstOrFail();
-          return response.status(200).send({ data: client });
+        clientQuery = clientQuery
+              .whereRaw(`YEAR(created_at) = ? AND MONTH(created_at) = ?`, [year, month]);                     
       }
       
-      const client = await Client
-        .query()
-        .where('id', params.id)
+      const client = await clientQuery
         .preload('sales', (query) => {
           query.orderBy('created_at', 'desc')
         })
         .firstOrFail();
+
       return response.status(200).send({ data: client });
     } catch(error: any) {
       console.error(error);
