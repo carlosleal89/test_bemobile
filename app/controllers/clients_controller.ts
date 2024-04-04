@@ -86,6 +86,9 @@ export default class ClientsController {
       return response.status(200).send({ data: client });
     } catch(error: any) {
       console.error(error.message);
+      if (error.code === 'ER_DUP_ENTRY') {
+        return response.status(409).send({ message: 'CPF já cadastrado' });
+      }
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
