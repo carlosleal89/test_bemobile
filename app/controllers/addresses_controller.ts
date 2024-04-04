@@ -3,7 +3,8 @@ import IAddressData from '../../interfaces/i_address.js';
 import Address from '../models/address.js';
 import Client from '../models/client.js';
 
-export default class AddressesController {async insertAddressByClientId({ request, response }: HttpContext) {
+export default class AddressesController {
+  async insertAddressByClientId({ request, response }: HttpContext) {
     try {
       const { clientId } = request.params();
       const { addresses } = request.body();

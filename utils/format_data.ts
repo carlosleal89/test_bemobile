@@ -18,7 +18,7 @@ export default function formatData(data: Client[]) {
     })),
     phones: client.phones.map(phone => ({
       id: phone.id,
-      clientId: phone.clienteId,
+      clientId: phone.clientId,
       phone: phone.phone,
     }))
   }));
