@@ -21,7 +21,6 @@ export default class ProductsController {
   async store ({ request, response }: HttpContext) {
     try {
       const { products } = request.body();
-      // const newProduct = await Product.create(body);
 
       const newProducts = await Promise.all(products.map(async (productEl: IProduct) => {
         return await Product.create(productEl);
