@@ -70,4 +70,21 @@ export default class ProductsController {
         .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
+
+  async destroy({params, response}: HttpContext) {
+    try {
+      const product = await Product.findOrFail(params.id);
+
+      await product.delete();
+      
+      return response.status(204);
+    } catch(error: any) {
+      console.error(error.message);
+      if (error.message === 'Row not found') {
+        return response.status(200).send({ message: 'Produto não encontrado' });
+      }
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
+    }
+  }
 }
