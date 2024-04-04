@@ -11,11 +11,8 @@ export default class extends BaseSchema {
         .references('clients.id')
         .onDelete('CASCADE')
         .notNullable()
-      table.integer('product_id')
-        // .unsigned()
-        // .references('products.id')
-        // .notNullable()
-      table.integer('quantity')
+      table.integer('product_id').notNullable()
+      table.integer('quantity').notNullable()
       table.decimal('unit_price', 10, 2).notNullable()
       table.decimal('total_price', 10 ,2).notNullable()
 
