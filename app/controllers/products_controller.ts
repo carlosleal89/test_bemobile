@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import Product from '../models/product.js';
+import IProduct from '../../interfaces/i_products.js';
 
 export default class ProductsController {
   async index({response}: HttpContext) {
@@ -19,12 +20,16 @@ export default class ProductsController {
 
   async store ({ request, response }: HttpContext) {
     try {
-      const body = request.body();
-      const newProduct = await Product.create(body);
+      const { products } = request.body();
+      // const newProduct = await Product.create(body);
+
+      const newProducts = await Promise.all(products.map(async (productEl: IProduct) => {
+        return await Product.create(productEl);
+      }));
 
       return response.status(201).send({
-        message: 'Produto inserido na base de dados',
-        data: newProduct,
+        message: 'Produtos inserido na base de dados',
+        data: newProducts,
       })
     } catch(error: any) {
       console.error(error.message);
