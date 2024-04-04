@@ -34,5 +34,16 @@ export default class ProductsController {
     }
   }
 
-
+  async show({params, response}: HttpContext) {
+    try {
+      const product = await Product.findOrFail(params.id);;
+      return response.status(200).send( product );
+    } catch(error: any) {
+      console.error(error.message);
+      if (error.message === 'Row not found') {
+        return response.status(200).send({ message: 'Produto não encontrado' });
+      }
+      return response.status(500).send({ message: 'Erro interno do servidor' });
+    }
+  }
 }
