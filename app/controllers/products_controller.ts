@@ -12,9 +12,8 @@ export default class ProductsController {
 
     } catch(error: any) {
       console.error(error.message);
-      return response.status(500).send({
-        message: `Internal Server Error: ${error.message}`
-      });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 
@@ -43,7 +42,32 @@ export default class ProductsController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Produto não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
+    }
+  }
+
+  async update({params, request, response}: HttpContext) {
+    try {
+      const body = request.body();
+      const product = await Product.findOrFail(params.id);
+
+      product.brand = body.brand;
+      product.model = body.model;
+      product.size = body.size;
+      product.color = body.color;
+      product.price = body.price;
+
+      await product.save();
+      
+      return response.status(200).send({ data: product });
+    } catch(error: any) {
+      console.error(error.message);
+      if (error.message === 'Row not found') {
+        return response.status(200).send({ message: 'Cliente não encontrado' });
+      }
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 }
