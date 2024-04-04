@@ -17,9 +17,8 @@ export default class ClientsController {
 
     } catch(error: any) {
       console.error(error.message);
-      return response.status(500).send({
-        message: `Internal Server Error: ${error.message}`
-      });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 
@@ -33,25 +32,31 @@ export default class ClientsController {
       }); 
     } catch(error: any) {
       console.error(error.message);
-      const errorMessage = error.code === 'ER_DUP_ENTRY' ?
-        'Já existe um cliente cadastrado com o mesmo CPF.'
-        : error.message;
-        return response.status(409).send({
-          message: errorMessage,
-        }); 
+      if (error.code === 'ER_DUP_ENTRY') {
+        return response.status(409).send({ message: 'CPF já cadastrado' });
+      }
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });     
     }
   }
 
   async show({params, response}: HttpContext) {
     try {
-      const client = await Client.query().where('id', params.id).preload('sales').firstOrFail();
+      const client = await Client
+        .query()
+        .where('id', params.id)
+        .preload('sales', (query) => {
+          query.orderBy('created_at', 'desc')
+        })
+        .firstOrFail();
       return response.status(200).send({ data: client });
     } catch(error: any) {
       console.error(error.message);
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 
@@ -71,7 +76,8 @@ export default class ClientsController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 
@@ -87,7 +93,8 @@ export default class ClientsController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 }
