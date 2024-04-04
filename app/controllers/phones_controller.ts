@@ -22,7 +22,7 @@ export default class PhonesController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500).send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 
