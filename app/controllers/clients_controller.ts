@@ -41,7 +41,7 @@ export default class ClientsController {
 
   async show({params, response}: HttpContext) {
     try {
-      const client = await Client.findOrFail(params.id);
+      const client = await Client.query().where('id', params.id).preload('sales').firstOrFail();
       return response.status(200).send({ data: client });
     } catch(error: any) {
       console.error(error.message);
