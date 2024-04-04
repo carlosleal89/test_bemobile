@@ -5,7 +5,7 @@ export default class Phone extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
+  @column({ serializeAs: null })
   declare clientId: number
 
   @column()
