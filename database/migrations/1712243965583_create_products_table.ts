@@ -14,7 +14,7 @@ export default class extends BaseSchema {
 
       table.timestamp('created_at')
       table.timestamp('updated_at')
-      table.dateTime('deleted_at').nullable().defaultTo(null)
+      table.timestamp('deleted_at').nullable()
     })
   }
 
