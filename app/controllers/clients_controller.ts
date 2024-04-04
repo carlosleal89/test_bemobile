@@ -10,10 +10,9 @@ export default class ClientsController {
         .orderBy('id', 'asc')
         .preload('addresses')
         .preload('phones');
-      const clientsWithoutTimestamps = formatData(allClients);
       
       return response.status(200).send({
-        data: clientsWithoutTimestamps,
+        data: allClients,
       });
 
     } catch(error: any) {
