@@ -5,7 +5,7 @@ import formatData from '../../utils/format_data.js';
 export default class ClientsController {
   async index({response}: HttpContext) {
     try {
-      const allClients = await Client.query().preload('addresses');
+      const allClients = await Client.query().preload('addresses').preload('phones');
       const clientsWithoutTimestamps = formatData(allClients);
       
       return response.status(200).send({

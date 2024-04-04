@@ -14,7 +14,12 @@ export default function formatData(data: Client[]) {
       city: address.city,
       state: address.state,
       country: address.country,
-      postalCode: address.postal_code
+      postalCode: address.postal_code,
+    })),
+    phones: client.phones.map(phone => ({
+      id: phone.id,
+      clientId: phone.clienteId,
+      phone: phone.phone,
     }))
   }));
   return clientsData;
