@@ -7,8 +7,7 @@ export default class PhonesController {
   async insertPhoneByClientId({ request, response }: HttpContext) {
     try {
       const { clientId } = request.params();
-      const { phones } = request.body();
-      console.log('TESTE', phones);      
+      const { phones } = request.body();    
 
       await Client.findOrFail(clientId);
 
@@ -22,6 +21,25 @@ export default class PhonesController {
       console.error(error.message);
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
+      }
+      return response.status(500).send({ message: 'Erro interno do servidor' });
+    }
+  }
+
+  async update({params, request, response}: HttpContext) {
+    try {
+      const body = request.body();
+      const phone = await Phone.findOrFail(params.id);
+      
+      phone.phone = body.phone;
+
+      await phone.save();
+
+      return response.status(200).send({ data: phone });
+    } catch(error: any) {
+      console.error(error.message);
+      if (error.message === 'Row not found') {
+        return response.status(200).send({ message: 'Telefone não encontrado' });
       }
       return response.status(500).send({ message: 'Erro interno do servidor' });
     }
