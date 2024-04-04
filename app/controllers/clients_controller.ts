@@ -1,6 +1,5 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import Client from '../models/client.js';
-import formatData from '../../utils/format_data.js';
 
 export default class ClientsController {
   async index({response}: HttpContext) {

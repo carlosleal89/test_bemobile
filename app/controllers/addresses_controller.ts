@@ -8,10 +8,13 @@ export default class AddressesController {
     try {
       const { clientId } = request.params();
       const { addresses } = request.body();
-      await Client.findOrFail(clientId);      
+
+      await Client.findOrFail(clientId);
+     
       const newAddress = await Promise.all(addresses.map(async (addressEl: IAddressData) => {
         return await Address.create({ clientId, ...addressEl });
       }));
+
       return response.status(201).send({
         data: newAddress,
       });
@@ -20,7 +23,8 @@ export default class AddressesController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 
@@ -45,7 +49,8 @@ export default class AddressesController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Endereço não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 
@@ -61,7 +66,8 @@ export default class AddressesController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Endereço não encontrado' });
       }
-      return response.status(500).send({ message: 'Erro interno do servidor' });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 }
