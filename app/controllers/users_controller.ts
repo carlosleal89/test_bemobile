@@ -1,10 +1,12 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import User from '../models/user.js';
 import hash from '@adonisjs/core/services/hash';
+import { signupValidator } from '../validators/user_validator.js';
 
 
 export default class UsersController {
   async signup({request, response}: HttpContext) {
+    await request.validateUsing(signupValidator);    
     try {
       const body = request.body();
       const newUser = await User.create(body);
