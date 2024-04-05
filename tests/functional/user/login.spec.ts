@@ -1,5 +1,5 @@
 import { test } from '@japa/runner';
-import { apiClient } from '@japa/api-client';
+// import { apiClient } from '@japa/api-client';
 import User from '../../../app/models/user.js';
 import hash from '@adonisjs/core/services/hash';
 
