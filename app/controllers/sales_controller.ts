@@ -2,9 +2,11 @@ import type { HttpContext } from '@adonisjs/core/http';
 import Client from '../models/client.js';
 import Sale from '../models/sale.js';
 import Product from '../models/product.js';
+import { saleValidator } from '../validators/sale_validator.js';
 
 export default class SalesController {
   async store({ request, response }: HttpContext) {
+    await request.validateUsing(saleValidator);
     try {
       const { clientId, productId, quantity, unitPrice, totalPrice } = request.body();
 

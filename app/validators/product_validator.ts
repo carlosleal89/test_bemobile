@@ -27,7 +27,7 @@ export const productValidator = vine.compile(
   })
 )
 
-export const updateProductValidator = vine.compile(  
+export const updateProductValidator = vine.compile(
     vine.object({
       brand: vine
           .string()
