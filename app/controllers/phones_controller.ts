@@ -2,7 +2,7 @@ import type { HttpContext } from '@adonisjs/core/http';
 import Phone from '../models/phone.js';
 import Client from '../models/client.js';
 import IPhone from '../../interfaces/i_phone.js';
-import { phoneValidator } from '../validators/phone_validator.js';
+import { phoneValidator, updatePhoneValidator } from '../validators/phone_validator.js';
 
 export default class PhonesController {
   async insertPhoneByClientId({ request, response }: HttpContext) {
@@ -30,6 +30,7 @@ export default class PhonesController {
   }
 
   async update({params, request, response}: HttpContext) {
+    await request.validateUsing(updatePhoneValidator);
     try {
       const body = request.body();
       const phone = await Phone.findOrFail(params.id);
