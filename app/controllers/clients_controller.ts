@@ -23,7 +23,7 @@ export default class ClientsController {
   }
 
   async store({request, response}: HttpContext) {
-    await request.validateUsing(clientValidator); 
+    await request.validateUsing(clientValidator);
     try {
       const body = request.body();
       const newClient = await Client.create(body);
@@ -76,6 +76,7 @@ export default class ClientsController {
   }
 
   async update({params, request, response}: HttpContext) {
+    await request.validateUsing(clientValidator);
     try {
       const body = request.body();
       const client = await Client.findOrFail(params.id);

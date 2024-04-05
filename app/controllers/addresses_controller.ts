@@ -2,9 +2,11 @@ import type { HttpContext } from '@adonisjs/core/http';
 import IAddressData from '../../interfaces/i_address.js';
 import Address from '../models/address.js';
 import Client from '../models/client.js';
+import { addressValidator, updateAddressValidator } from '../validators/address_validator.js';
 
 export default class AddressesController {
   async insertAddressByClientId({ request, response }: HttpContext) {
+    await request.validateUsing(addressValidator);
     try {
       const { clientId } = request.params();
       const { addresses } = request.body();
@@ -29,6 +31,7 @@ export default class AddressesController {
   }
 
   async update({params, request, response}: HttpContext) {
+    await request.validateUsing(updateAddressValidator);
     try {
       const body = request.body();
       const address = await Address.findOrFail(params.id);
