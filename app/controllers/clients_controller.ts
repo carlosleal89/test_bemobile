@@ -1,5 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import Client from '../models/client.js';
+import { clientValidator } from '../validators/client_validator.js';
 
 export default class ClientsController {
   async index({response}: HttpContext) {
@@ -22,6 +23,7 @@ export default class ClientsController {
   }
 
   async store({request, response}: HttpContext) {
+    await request.validateUsing(clientValidator); 
     try {
       const body = request.body();
       const newClient = await Client.create(body);
