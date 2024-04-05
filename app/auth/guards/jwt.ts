@@ -1,6 +1,6 @@
 import { symbols, errors } from '@adonisjs/auth';
 import {
-  JwtGuardUser,
+  // JwtGuardUser,
   JwtUserProviderContract,
   JwtGuardOptions,
 } from '../../../interfaces/i_jwt_guard.js';

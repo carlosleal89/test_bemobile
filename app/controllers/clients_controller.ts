@@ -46,7 +46,7 @@ export default class ClientsController {
       const isClient = await Client.find(params.id)
 
       if(!isClient) {
-        return response.status(200).send({ message: 'Cliente não encontrado' });        
+        return response.status(404).send({ message: 'Cliente não encontrado' });        
       }
 
       const { month, year } = request.qs();
@@ -68,7 +68,7 @@ export default class ClientsController {
     } catch(error: any) {
       console.error(error);
       if (error.message === 'Row not found') {
-        return response.status(200).send({ message: 'Nenhuma venda encontrada nesse periodo' });
+        return response.status(404).send({ message: 'Nenhuma venda encontrada nesse periodo' });
       }
       return response.status(500)
         .send({ message: `Erro interno do servidor: ${error.message}` });
