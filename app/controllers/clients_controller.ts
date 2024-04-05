@@ -110,7 +110,7 @@ export default class ClientsController {
     } catch(error: any) {
       console.error(error.message);
       if (error.message === 'Row not found') {
-        return response.status(200).send({ message: 'Cliente não encontrado' });
+        return response.status(404).send({ message: 'Cliente não encontrado' });
       }
       return response.status(500)
         .send({ message: `Erro interno do servidor: ${error.message}` });

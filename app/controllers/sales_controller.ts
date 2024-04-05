@@ -13,7 +13,7 @@ export default class SalesController {
       await Client.findOrFail(clientId);
       const isProduct = await Product.find(productId);
       if (!isProduct) {
-        return response.status(200).send({ message: 'Produto não encontrado' });
+        return response.status(404).send({ message: 'Produto não encontrado' });
       }
 
       const newSale = await Sale.create({
@@ -28,7 +28,7 @@ export default class SalesController {
     } catch(error: any) {
       console.error(error.message);
       if (error.message === 'Row not found') {
-        return response.status(200).send({ message: 'Cliente não encontrado' });
+        return response.status(404).send({ message: 'Cliente não encontrado' });
       }
       return response.status(500)
         .send({ message: `Erro interno do servidor: ${error.message}` });
