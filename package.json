@@ -8,6 +8,8 @@
     "start": "node bin/server.js",
     "build": "node ace build",
     "dev": "node ace serve --watch",
+    "predev": "npm run db:reset",
+    "db:reset": "node ace migration:fresh && node ace db:seed",
     "test": "node ace test",
     "lint": "eslint .",
     "format": "prettier --write .",
