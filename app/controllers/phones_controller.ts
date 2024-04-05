@@ -2,9 +2,11 @@ import type { HttpContext } from '@adonisjs/core/http';
 import Phone from '../models/phone.js';
 import Client from '../models/client.js';
 import IPhone from '../../interfaces/i_phone.js';
+import { phoneValidator } from '../validators/phone_validator.js';
 
 export default class PhonesController {
   async insertPhoneByClientId({ request, response }: HttpContext) {
+    await request.validateUsing(phoneValidator);
     try {
       const { clientId } = request.params();
       const { phones } = request.body();    
@@ -22,7 +24,8 @@ export default class PhonesController {
       if (error.message === 'Row not found') {
         return response.status(200).send({ message: 'Cliente não encontrado' });
       }
-      return response.status(500).send({ message: `Erro interno do servidor: ${error.message}` });
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });
     }
   }
 

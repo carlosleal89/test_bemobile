@@ -1,8 +1,6 @@
 import type { HttpContext } from '@adonisjs/core/http';
 import User from '../models/user.js';
-import hash from '@adonisjs/core/services/hash';
 import { signupValidator } from '../validators/user_validator.js';
-
 
 export default class UsersController {
   async signup({request, response}: HttpContext) {
@@ -19,34 +17,28 @@ export default class UsersController {
       });   
     } catch (error: any) {
       console.error(error.message)
-      const errorMessage = error.code === 'ER_DUP_ENTRY' ?
-        'Usuário já existente'
-        : error.message;
-      return response.status(409).send({
-        message: errorMessage,
-      });  
+      if (error.code === 'ER_DUP_ENTRY') {
+        return response.status(409).send({ message: 'Email já cadastrado' });
+      }
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` }); 
     }
   }
 
   async login({request, response, auth}: HttpContext) {
     try {
       const { email, password } = request.all();
+
       const user = await User.verifyCredentials(email, password);
 
-      const passwordVerified = await hash.verify(user.password, password);
-
-      if (!passwordVerified) {        
-        return response.status(401).send({ error: 'Senha inválida' });
-      }
       return await auth.use('jwt').generate(user);
     } catch (error: any) {
       console.error(error.code)
-      const errorMessage = error.code === 'E_ROW_NOT_FOUND' ?
-        'Usuário não encontrado'
-        : error.message;
-      return response.status(200).send({
-        message: errorMessage,
-      });  
+      if (error.code === 'E_INVALID_CREDENTIALS') {
+        return response.status(401).send({ message: 'Email ou senha inválidos' });
+      }
+      return response.status(500)
+        .send({ message: `Erro interno do servidor: ${error.message}` });  
     }
   }
 }
