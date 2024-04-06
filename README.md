@@ -77,7 +77,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
    /login
 
 
-  * Este endpoint aceita requisições no formato JSON no seguinte formato:
+  * Endpoint do tipo POST que aceita requisições no formato JSON no seguinte formato:
 
     ```json
     {
@@ -125,7 +125,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
     /api/address
 
 
-  * Este endpoint aceita requisições no formato JSON no seguinte formato:
+  * Endpoint do tipo POST que aceita requisições no formato JSON no seguinte formato:
 
     ```json
     {
