@@ -20,7 +20,7 @@ test.group('Testes para criação e login de usuário: ', (group) => {
     assert.isTrue(await hash.verify(user.password, 'stars'));
   });
 
-  test('Testa se a função de criptografar retorna um erro com a senha incorreta: ', async ({ assert }) => {
+  test('Testa se a função de criptografar retorna o codigo 409 com a senha incorreta: ', async ({ assert }) => {
     assert.isFalse(await hash.verify(user.password, 'jill'));
   });
 

@@ -3,25 +3,12 @@ import User from '../../../app/models/user.js';
 import { productsList } from '../../mocks/product_mock.js';
 
 test.group('Testes para as rotas de produtos: ', (group) => {
-  let user: any;
-  group.each.setup(async () => {
-    user = await User.create({
-      fullName: 'testuser',
-      email: 'test@example.com',
-      password: 'password'
-    });
-  })
-
-  group.each.teardown(async () => {
-    await user.delete();
-  })
-
   test('Testa se get /api/products/ retorna o status 200: ', async ({ client }) => {
     const loginResponse = await client
     .post('/login')
     .json({
-      email: 'test@example.com',
-      password: 'password'
+      email: 'alan@wake.com',
+      password: 'secret'
     })
     
     const token = loginResponse.body().token;
@@ -37,8 +24,8 @@ test.group('Testes para as rotas de produtos: ', (group) => {
     const loginResponse = await client
     .post('/login')
     .json({
-      email: 'test@example.com',
-      password: 'password'
+      email: 'alan@wake.com',
+      password: 'secret'
     })
     
     const token = loginResponse.body().token;
@@ -54,8 +41,8 @@ test.group('Testes para as rotas de produtos: ', (group) => {
     await client
     .post('/login')
     .json({
-      email: 'test@example.com',
-      password: 'password'
+      email: 'alan@wake.com',
+      password: 'secret'
     })
 
     const response = await client
