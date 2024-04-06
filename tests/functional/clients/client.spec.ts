@@ -1,5 +1,6 @@
 import { test } from '@japa/runner'
 import User from '../../../app/models/user.js';
+import { clientsList } from '../../mocks/client_mock.js';
 
 test.group('Testes para as rotas de clientes: ', (group) => {
   let user: any;
@@ -30,6 +31,23 @@ test.group('Testes para as rotas de clientes: ', (group) => {
     .header('Authorization', `Bearer ${token}`)
 
     response.assertStatus(200);
+  })
+
+  test('Testa se get /api/clients/ retorna a lista de clientes conforme esperado: ', async ({ client }) => {
+    const loginResponse = await client
+    .post('/login')
+    .json({
+      email: 'test@example.com',
+      password: 'password'
+    })
+    
+    const token = loginResponse.body().token;
+
+    const response = await client
+    .get('/api/clients/')
+    .header('Authorization', `Bearer ${token}`)
+
+    response.assertBody(clientsList);
   })
 
   test('Testa se get /api/clients/:id retorna o status 200: ', async ({ client }) => {

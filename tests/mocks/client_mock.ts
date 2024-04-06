@@ -1,4 +1,4 @@
-{
+export const clientsList = {
 	data: [
 		{
 			id: 1,
