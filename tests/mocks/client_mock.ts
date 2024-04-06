@@ -48,3 +48,21 @@ export const clientsList = {
 		}
 	]
 }
+
+export const clientDetailed = {
+	data: {
+		id: 1,
+		name: "Jill Valentine",
+		cpf: "01854825698",
+		sales: [
+			{
+				id: 1,
+				clientId: 1,
+				productId: 4,
+				quantity: 1,
+				unitPrice: "1249.00",
+				totalPrice: "1249.00",
+			}
+		]
+	}
+}

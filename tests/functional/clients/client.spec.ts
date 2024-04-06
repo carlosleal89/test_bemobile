@@ -1,6 +1,6 @@
 import { test } from '@japa/runner'
 import User from '../../../app/models/user.js';
-import { clientsList } from '../../mocks/client_mock.js';
+import { clientsList, clientDetailed } from '../../mocks/client_mock.js';
 
 test.group('Testes para as rotas de clientes: ', (group) => {
   let user: any;
@@ -65,6 +65,23 @@ test.group('Testes para as rotas de clientes: ', (group) => {
     .header('Authorization', `Bearer ${token}`)
 
     response.assertStatus(200);
+  })
+
+  test('Testa se get /api/clients/:id detalha um cliente conforme esperado: ', async ({ client }) => {
+    const loginResponse = await client
+    .post('/login')
+    .json({
+      email: 'test@example.com',
+      password: 'password'
+    })
+    
+    const token = loginResponse.body().token;
+
+    const response = await client
+    .get('/api/clients/1')
+    .header('Authorization', `Bearer ${token}`)
+
+    response.assertBody(clientDetailed);
   })
 
   test('Testa se get /api/clients/:id retorna o status 404 ao não encontrar um cliente: ', async ({ client }) => {
