@@ -122,12 +122,10 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
 4. Cadastro de endereço:
 
-  Endpoint do tipo POST para cadastro de endereço para um cliente:
-
     /api/address
 
 
-  Este endpoint aceita requisições no formato JSON no seguinte formato:
+  * Este endpoint aceita requisições no formato JSON no seguinte formato:
 
     ```json
     {
