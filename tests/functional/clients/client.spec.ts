@@ -1,8 +1,7 @@
-import { test } from '@japa/runner'
-import User from '../../../app/models/user.js';
+import { test } from '@japa/runner';
 import { clientsList, clientDetailed } from '../../mocks/client_mock.js';
 
-test.group('Testes para as rotas de clientes: ', (group) => {
+test.group('Testes para as rotas de clientes: ', () => {
   test('Testa se get /api/clients/ retorna o status 200: ', async ({ client }) => {
     const loginResponse = await client
     .post('/login')

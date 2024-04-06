@@ -33,5 +33,5 @@ test.group('Testes para criação e login de usuário: ', (group) => {
     
     const response = await client.post('/signup').json(userData);
     response.assertStatus(409);
-  });  
+  });
 })
