@@ -120,18 +120,18 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   Para facilitar o cadastro de clientes, a validação de CPF não é feita usando os algoritmos específicos para esse fim. Visto que são usados dados fictícios, é feito apenas uma validação simples.
 
 
-3. Cadastro de endereço:
+4. Cadastro de endereço:
 
-Endpoint do tipo POST para cadastro de endereço para um cliente:
+  Endpoint do tipo POST para cadastro de endereço para um cliente:
 
-   /api/address
+    /api/address
 
 
-Este endpoint aceita requisições no formato JSON no seguinte formato:
+  Este endpoint aceita requisições no formato JSON no seguinte formato:
 
-   ```json
-   {
-    "street": "Rua de Exemplo",
-    "número": "15"
-   }
-   ```
+    ```json
+    {
+      "street": "Rua de Exemplo",
+      "número": "15"
+    }
+    ```
