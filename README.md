@@ -1,14 +1,14 @@
 # test_bemobile
 
-Esta é aplicação é uma API restful desenvolvida com o framework AdonisJs utilizando a estrutura MVC. O banco de dados utilizado é o MySql e usa o Lucid como ORM.
-
+Esta aplicação é uma API restful desenvolvida com o framework AdonisJs utilizando a estrutura MVC. O banco de dados utilizado é o MySql e usa o Lucid como ORM.
+Os testes foram desenvolvidos com Japa test runner.
 
 A API possui rotas para cadastro de usuários do sistema e cadastro e gerenciamento de clientes, vendas e produtos.
 
 ## Para executar a aplicação:
 
 
-O sistema depende do banco de dados que está configurado em um container Docker que precisa estar em execução para o correto funcionamento.
+O banco de dados está configurado em um container Docker que precisa estar em execução para o correto funcionamento do sistem.
 
 
   1. Execute o comando para iniciar o banco de dados:
@@ -76,7 +76,6 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
    /login
 
-
   * Endpoint do tipo POST que aceita requisições no formato JSON no seguinte formato:
 
     ```json
@@ -95,7 +94,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
 * O token deve ser enviado no header de autenticação 'Authorization' seguindo o exemplo:
 
-   Bearer substituaEssaStringPeloToken
+   'Bearer substituaEssaStringPeloToken'
 
 
 3. Cadastro de clientes: 
@@ -112,7 +111,6 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
     }
     ```
 
-
 - O campo 'name' não aceita números ou caracteres especiais;
 
 - O campo 'cpf' aceita strings formadas somente por números com 11 caracteres;
@@ -128,8 +126,119 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   * Endpoint do tipo POST que aceita requisições no formato JSON no seguinte formato:
 
     ```json
-    {
-      "street": "Rua de Exemplo",
-      "número": "15"
+    {	
+      "addresses": [
+        {
+        "street": "Grove Street",
+        "number": "66",
+        "neighborhood": "Ganton",
+        "city": "San Andreas",
+        "state": "California",
+        "country": "EUA",
+        "postal_code": "88067-050"
+        }
+      ]	
     }
     ```
+
+  - É possivel cadastrar mais de um endereço na mesma requisição, basta enviar outros endereços no array
+  'addresses';
+  - Todos os campos possuem validação;
+
+5. Atualização de endereço:
+
+    /api/address/:id
+
+  * Endpoint do tipo PATCH que aceita requisição em JSON no seguinte formato:
+
+    ```json
+    {
+      "street": "Grove Street",
+      "number": "66",
+      "neighborhood": "Ganton",
+      "city": "San Andreas",
+      "state": "California",
+      "country": "EUA",
+      "postal_code": "88067-050"
+    }
+    ```
+
+   - Caso o id passado pelo parametro da URL não seja encontrado, o sistema irá uma mensagem no corpo da resposta;
+   - Todos os campos possuem validação; 
+
+6. Excluir um endereço:
+
+    /api/address/:id
+
+  * Endpoint do tipo DELETE;
+
+  - Deve-se passar o id endereço que deve ser excluido;
+  - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
+
+7. Cadastro de telefones:
+
+    /api/phones
+
+  * Endpoint do tipo POST que aceita requisições em JSON no seguinte formato:
+
+    ```json
+    {	
+        "phones": [
+        {
+        "phone": "48996234045"
+        }
+      ]	
+    }
+    ```
+
+  - É possivel cadastrar mais de um telefone na mesma requisição, basta enviar outros telefones no array
+  'phones';
+  - O campo 'phone' aceita telefones com 10 ou 11 digitos, iniciando pelo DDD;
+  - O campo 'phone' aceita strings formadas por numeros;
+
+8. Atualização de telefone:
+
+    /api/phones/:id
+
+  * Endpoint do tipo PATCH que aceita requisições em JSON no seguinte formato:
+
+    ```json
+    {	
+     "phone": "48996234045"
+    }
+    ```
+
+  - O campo 'phone' aceita telefones com 10 ou 11 digitos, iniciando pelo DDD;
+  - O campo 'phone' aceita strings formadas por numeros;
+  - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
+
+9. Excluir um telefone:
+
+    /api/phones/:id
+
+  * Endpoint do tipo DELETE;
+
+  - Deve-se passar o id do telefone que deve ser excluido;
+  - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
+
+10. Cadastro de produtos:
+
+    /api/products/
+
+  * Endpoint do tipo POST que aceita requisições em JSON no seguinte formato:
+
+    ```json
+    {
+      "products": [
+        {
+          "brand": "Traxart",
+          "model": "Revolt",
+          "size": "40br",
+          "color": "Preto",
+          "price": 899
+        }        		
+      ]
+    }
+    ```
+  - É possivel cadastrar mais de um produto na mesma requisição, basta enviar outros produtos no array "products";
+  - Todos os campos possuem valição;
