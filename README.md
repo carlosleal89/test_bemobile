@@ -33,8 +33,9 @@ O banco de dados está configurado em um container Docker que precisa estar em e
   Foram implementados testes de funcionalidade na aplicação.
   
   * O comando abaixo executa os testes:
+
     
-     npm run test
+      npm run test
 
 
 As rotas que dizem respeito a clientes, vendas e produtos precisam de autenticação via token JWT que deve ser enviado pelo header Authorization. 
