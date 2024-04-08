@@ -26,7 +26,7 @@ O banco de dados está configurado em um container Docker que precisa estar em e
 
     docker-compose up --build
 
-  3. Inicie o servidor:  
+  3. Inicie o servidor:
 
     npm run dev
 
@@ -34,15 +34,6 @@ O banco de dados está configurado em um container Docker que precisa estar em e
 
     http://localhost:3333
 
-
-## Testes
-
-  Foram implementados testes de funcionalidade na aplicação.
-  
-  * O comando abaixo executa os testes:
-
-    
-        npm run test
 
 
 As rotas que dizem respeito a clientes, vendas e produtos precisam de autenticação via token JWT que deve ser enviado pelo header Authorization. 
@@ -213,7 +204,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
     }
     ```
 
-   - Caso o id passado pelo parametro da URL não seja encontrado, o sistema irá uma mensagem no corpo da resposta;
+   - Caso o id passado pelo parametro da URL não seja encontrado, o sistema irá retornar uma mensagem no corpo da resposta;
    - Todos os campos possuem validação; 
 
 3. Excluir um endereço:
@@ -283,7 +274,15 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
   - Retorna uma lista de todos os produtos cadastrados;
 
-2. Cadastro de produtos:
+2. Detalhar um produto:
+
+    /api/products/:id
+
+  * Endpoint do tipo GET que detalha um produto;
+
+  - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
+
+3. Cadastro de produtos:
 
     /api/products/
 
@@ -305,7 +304,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   - É possivel cadastrar mais de um produto na mesma requisição, basta enviar outros produtos no array "products";
   - Todos os campos possuem validação;
 
-3. Atualizar um produto:
+4. Atualizar um produto:
 
     /api/products/:id
 
@@ -324,7 +323,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
   - Todos os campos possuem validação;
 
-4. Excluir um produto:
+5. Excluir um produto:
 
     /api/products/:id
 
@@ -354,3 +353,13 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   - Caso o id em 'productId' seja inválido, o sistema irá retornar uma mensagem de erro no corpo da requisição;
   - Todos os campos possuem validação;
   - Os valores de 'unitPrice' e 'totalPrice' são inseridos manualmente visando um sistema no qual seja possivel ao usuário conceder descontos a seus clientes. Inicialmente eu havia pensado em implementar uma lógica no qual a requisição iria ser enviada apenas com os campos de 'clientId', 'productId' e 'quantity' e então, visto que cada produto possui um preço cadastrado, o sistema ficaria a cargo de calcular os valor em 'totalPrice'. Como não havia regra de neǵocio para esse endpoint, resolvi deixar da forma que esta implementado.
+
+
+## Testes
+
+  Foram implementados testes de funcionalidade na aplicação.
+  
+  * O comando abaixo executa os testes:
+
+    
+        npm run test
