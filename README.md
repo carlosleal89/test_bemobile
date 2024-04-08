@@ -18,21 +18,21 @@ O banco de dados está configurado em um container Docker que precisa estar em e
 - A porta que o container do banco de dados utiliza é a 3306. Caso seja necessário é possivel alterar essa porta na variavel de ambiente DB_PORT e no arquivo 'Docker-compose.yml'.
 
 
-  1. Instale as dependências na raiz do projeto:
+1. Instale as dependências na raiz do projeto:
 
-    npm install
+  npm install
 
-  2. Execute o comando para iniciar o banco de dados:
+2. Execute o comando para iniciar o banco de dados:
 
-    docker-compose up --build
+  docker-compose up --build
 
-  3. Inicie o servidor:
+3. Inicie o servidor:
 
-    npm run dev
+  npm run dev
 
-  4. URL base da aplicação:
+4. URL base da aplicação:
 
-    http://localhost:3333
+  http://localhost:3333
 
 
 
