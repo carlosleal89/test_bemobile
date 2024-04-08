@@ -97,6 +97,13 @@ O token deve ser enviado no header de autenticação 'Authorization' seguindo o 
 
 ## Clientes
 
+1. Listar os clientes cadastrados:
+
+  /api/clients
+
+  * Endpoint do tipo GET que retorna uma lista com todos os clientes cadastrados;
+  - A lista é ordenada pelo ID do cliente;
+
 1. Cadastro de clientes: 
 
    /api/clients
@@ -273,6 +280,7 @@ O token deve ser enviado no header de autenticação 'Authorization' seguindo o 
   * Endpoint do tipo GET;
 
   - Retorna uma lista de todos os produtos cadastrados;
+  - Os produtos são ordenados em ordem alfabetica de acordo com a marca(brand);
 
 2. Detalhar um produto:
 
