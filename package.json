@@ -10,6 +10,7 @@
     "dev": "node ace serve --watch",
     "predev": "npm run db:reset",
     "db:reset": "node ace migration:fresh && node ace db:seed",
+    "pretest": "npm run db:reset",
     "test": "node ace test",
     "lint": "eslint .",
     "format": "prettier --write .",
