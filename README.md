@@ -164,7 +164,7 @@ O token deve ser enviado no header de autenticação 'Authorization' seguindo o 
     /api/address
 
 
-  * Endpoint do tipo POST que aceita requisições no formato JSON no seguinte formato:
+  * Endpoint do tipo POST que aceita requisições em JSON no seguinte formato:
 
     ```json
     {	
@@ -327,7 +327,7 @@ O token deve ser enviado no header de autenticação 'Authorization' seguindo o 
 
     /api/products/:id
 
-  * Endpoint do tipo DELETE que faz a 'soft delete' de um produto. O produto não é excluido permanentemente do banco de dados, mas é adicionado a data de exclusão na coluna 'deleted_at'. Dessa forma, caso seja necessário, é possivel utilizar o mesmo produto sem a necessidade de um novo cadastro, bastando apenas atribuir o valor de 'null' a coluna 'deleted_at';
+  * Endpoint do tipo DELETE que faz a 'soft delete' de um produto. O produto não é excluido permanentemente do banco de dados, mas é adicionado a data de exclusão na coluna 'deleted_at'. Dessa forma, caso seja necessário, é possivel utilizar o mesmo produto sem a necessidade de um novo cadastro, bastando atribuir o valor de 'null' a coluna 'deleted_at';
   - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
   - Os produtos que passaram pelo processo de 'soft'delete' não aparecem na rota de listagem de produtos;
 
