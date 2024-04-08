@@ -49,6 +49,7 @@ Abaixo você irá encontrar mais informações sobre as rotas do sistema.
 
 A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a variável de ambiente PORT, dentro do arquivo .env.
 
+## Usuários
 
 1. Cadastro de usuário:
 
@@ -87,7 +88,6 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
     ```
 
 - O sistema faz a verificação dos dados e irá retornar o token de autenticação no formato JSON no corpo da resposta.
-
 - Caso a validação não seja bem sucedida, o sistema irá retornar uma mensagem informando o motivo;
 
 
@@ -97,8 +97,9 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
    'Bearer substituaEssaStringPeloToken'
 
+## Clientes
 
-3. Cadastro de clientes: 
+1. Cadastro de clientes: 
 
    /api/clients
 
@@ -113,13 +114,15 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
     ```
 
 - O campo 'name' não aceita números ou caracteres especiais;
-
 - O campo 'cpf' aceita strings formadas somente por números com 11 caracteres;
 
   Para facilitar o cadastro de clientes, a validação de CPF não é feita usando os algoritmos específicos para esse fim. Visto que são usados dados fictícios, é feito apenas uma validação simples.
 
 
-4. Cadastro de endereço:
+
+## Endereços
+
+1. Cadastro de endereço:
 
     /api/address
 
@@ -146,7 +149,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   'addresses';
   - Todos os campos possuem validação;
 
-5. Atualização de endereço:
+2. Atualização de endereço:
 
     /api/address/:id
 
@@ -167,7 +170,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
    - Caso o id passado pelo parametro da URL não seja encontrado, o sistema irá uma mensagem no corpo da resposta;
    - Todos os campos possuem validação; 
 
-6. Excluir um endereço:
+3. Excluir um endereço:
 
     /api/address/:id
 
@@ -176,7 +179,9 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   - Deve-se passar o id endereço que deve ser excluido;
   - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
 
-7. Cadastro de telefones:
+## Telefones
+
+1. Cadastro de telefones:
 
     /api/phones
 
@@ -197,7 +202,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   - O campo 'phone' aceita telefones com 10 ou 11 digitos, iniciando pelo DDD;
   - O campo 'phone' aceita strings formadas por numeros;
 
-8. Atualização de telefone:
+2. Atualização de telefone:
 
     /api/phones/:id
 
@@ -213,7 +218,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   - O campo 'phone' aceita strings formadas por numeros;
   - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
 
-9. Excluir um telefone:
+3. Excluir um telefone:
 
     /api/phones/:id
 
@@ -222,7 +227,17 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
   - Deve-se passar o id do telefone que deve ser excluido;
   - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
 
-10. Cadastro de produtos:
+## Produtos
+
+1. Listar produtos:
+
+    /api/products
+
+  * Endpoint do tipo GET;
+
+  - Retorna uma lista de todos os produtos cadastrados;
+
+2. Cadastro de produtos:
 
     /api/products/
 
@@ -242,4 +257,54 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
     }
     ```
   - É possivel cadastrar mais de um produto na mesma requisição, basta enviar outros produtos no array "products";
-  - Todos os campos possuem valição;
+  - Todos os campos possuem validação;
+
+3. Atualizar um produto:
+
+    /api/products/:id
+
+  * Endpoint do tipo PATCH que aceita requisições em JSON no seguinte formato:
+
+    ```json
+    {
+      "brand": "Traxart",
+      "model": "Volt+",
+      "size": "40br",
+      "color": "Azul",
+      "price": 1199
+    }
+    ```
+
+  - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
+  - Todos os campos possuem validação;
+
+4. Excluir um produto:
+
+    /api/products/:id
+
+  * Endpoint do tipo DELETE que faz a 'soft delete' de um produto. O produto não é excluido permanentemente do banco de dados, mas é adicionado a data de exclusão na coluna 'deleted_at'. Dessa forma, caso seja necessário, é possivel utilizar o mesmo produto sem a necessidade de um novo cadastro, bastando apenas atribuir o valor de 'null' a coluna 'deleted_at';
+  - Caso o id seja inválido, o sistema irá retornar uma mensagem no corpo da resposta;
+  - Os produtos que passaram pelo processo de 'soft'delete' não aparecem na rota de listagem de produtos;
+
+
+## Vendas
+
+1. Cadastrar uma venda:
+
+  /api/sales
+
+  * Endpoint do tipo POST que aceita requisições em JSON no seguinte formato:
+
+    ```json
+    {	
+      "clientId": "2",
+      "productId": "3",
+      "quantity": "1",
+      "unitPrice": 899,
+      "totalPrice": 899
+    }
+    ```
+  - Caso o id em 'clienteId' seja inválido, o sistema irá retornar uma mensagem de erro no corpo da requisição;
+  - Caso o id em 'productId' seja inválido, o sistema irá retornar uma mensagem de erro no corpo da requisição;
+  - Todos os campos possuem validação;
+  - Os valores de 'unitPrice' e 'totalPrice' são inseridos manualmente visando um sistema no qual seja possivel ao usuário conceder descontos a seus clientes. Inicialmente eu havia pensado em implementar uma lógica no qual a requisição iria ser enviada apenas com os campos de 'clientId', 'productId' e 'quantity' e então, visto que cada produto possui um preço cadastrado, o sistema ficaria a cargo de calcular os valor em 'totalPrice'. Como não havia regra de neǵocio para esse endpoint, resolvi deixar da forma que esta implementado.
