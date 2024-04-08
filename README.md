@@ -67,9 +67,9 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
 - O campo 'fullName' não aceita números ou caracteres especiais;
 
-- O campo email irá retornar uma mensagem caso já exista um mesmo email cadastrado no sistema;
+- O campo 'email' irá retornar uma mensagem caso já exista um mesmo email cadastrado no sistema;
 
-- O campo password deve conter no mínimo 5 caracteres;
+- O campo 'password' deve conter no mínimo 5 caracteres;
 
 
 2. Login:
@@ -89,9 +89,9 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 - Caso a validação não seja bem sucedida, o sistema irá retornar uma mensagem informando o motivo;
 
 
-* As rotas abaixo necessitam do token de autenticação para aceitarem as requisições.
+As rotas abaixo necessitam do token de autenticação para aceitarem as requisições.
 
-* O token deve ser enviado no header de autenticação 'Authorization' seguindo o exemplo:
+O token deve ser enviado no header de autenticação 'Authorization' seguindo o exemplo:
 
    'Bearer substituaEssaStringPeloToken'
 
