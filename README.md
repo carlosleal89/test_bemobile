@@ -7,17 +7,24 @@ A API possui rotas para cadastro de usuários do sistema e cadastro e gerenciame
 
 ## Para executar a aplicação:
 
+* Requisitos:
 
-O banco de dados está configurado em um container Docker que precisa estar em execução para o correto funcionamento do sistem.
+  - Node na versão 20 ou superior;
+  - Docker;
 
 
-  1. Execute o comando para iniciar o banco de dados:
+O banco de dados está configurado em um container Docker que precisa estar em execução para o correto funcionamento do sistema.
 
-    docker-compose up --build    
+- A porta que o container do banco de dados utiliza é a 3306. Caso seja necessário é possivel alterar essa porta na variavel de ambiente DB_PORT e no arquivo 'Docker-compose.yml'.
 
-  2. Instale as dependências na raiz do projeto:
+
+  1. Instale as dependências na raiz do projeto:
 
     npm install
+
+  2. Execute o comando para iniciar o banco de dados:
+
+    docker-compose up --build
 
   3. Inicie o servidor:  
 
@@ -53,7 +60,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
 1. Cadastro de usuário:
 
-  /signup
+    /signup
 
 
   * Este endpoint aceita requisições no formato JSON no seguinte formato:
@@ -104,7 +111,7 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
    /api/clients
 
 
-* Endpoint do tipo POST que aceita requisições no formato JSON no seguinte formato:
+* Endpoint do tipo POST que aceita requisições em JSON no seguinte formato:
 
     ```json
     {
@@ -118,6 +125,45 @@ A porta padrão para acesso das rotas é 3333, pode ser configurada alterando a 
 
   Para facilitar o cadastro de clientes, a validação de CPF não é feita usando os algoritmos específicos para esse fim. Visto que são usados dados fictícios, é feito apenas uma validação simples.
 
+2. Detalhar um cliente e suas vendas:
+
+    /api/clients/:id
+
+  * Endpoint do tipo GET que retorna os detalhes de um cliente e suas vendas;
+
+  - Caso o id passado pelo parametro da URL não seja encontrado, o sistema irá retornar uma mensagem no corpo da resposta;
+  - É possível filtrar as vendas por mês+ano passando esses valores via query string;
+
+    Ex.:
+
+    /api/clients/3/?month=4&year=2024
+
+  - O sistema irá retornar somente as vendas do periodo especificado e, caso nenhuma venda seja encontrada, irá retornar uma mensagem informando;
+
+
+3. Atualizar os dados de um cliente:
+
+    /api/clients/:id
+
+  * Endpoint do tipo PATCH que aceita requisições em JSON no seguinte formato:
+
+      ```json
+      {	
+        "name": "Mr Scratch",
+        "cpf": "08079758850"
+      }
+      ```
+
+  - Caso o id passado pelo parametro da URL não seja encontrado, o sistema irá retornar uma mensagem no corpo da resposta;
+  - Todos os campos possuem validação;
+
+4. Excluir um cliente e suas vendas:
+
+    /api/clients/:id
+
+  * Endpoint do tipo DELETE que exclui o registro do cliente e de todas suas vendas;
+
+  - Caso o id passado pelo parametro da URL não seja encontrado, o sistema irá retornar uma mensagem no corpo da resposta;
 
 
 ## Endereços
